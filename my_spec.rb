@@ -7,28 +7,34 @@ describe "ML#do_product" do
   end
 
   it "should produce 4321" do
-    ML.new.dot_product([1,2,3,4],[1,10,100,1000]).should == 4321
+    ML.new.dot_product([1, 2, 3, 4], [1, 10, 100, 1000]).should == 4321
   end
 
   it "should produce 1 with input set 1" do
     ml = ML.new
-    ml.perceive([1, 0, 0], 1).should == 1
+    ml.perceive([1, 1, 0, 0], 1, 0.1).should == 1
   end
 
   it "should produce 1 with input set 2" do
-    ML.new.perceive([1,0,0], 1).should == 1
+    ML.new.perceive([1, 1, 0, 0], 1, 0.1).should == 1
   end
 
   it "should produce 1 with input set 3" do
-    ML.new.perceive([1,1,0], 1).should == 1
+    ML.new.perceive([1, 1, 1, 0], 1, 0.1).should == 1
   end
 
   it "should produce 0 with input set 4" do
-    ML.new.perceive([1,1,1], 0).should == 1
+    ML.new.perceive([1, 1, 1, 1], 0, 0.1).should == 1
   end
 
   it "should produce correct results for all input sets" do
-    ML.new.perceive_all(ML.new.validation_set)
+    ML.new.binary_train_all#(ML.new.validation_set)
+  end
+
+  describe "linear perceive" do
+    it "should produce correct results for all input sets" do
+      ML.new.linear_train_all#(ML.new.validation_set)
+    end
   end
 
   it "should return 1 for the distance amongst weights of verification set" do
@@ -42,6 +48,12 @@ describe "ML#do_product" do
   end
 
   it "should perceive with training sets and return the smallest w_distance" do
-    ML.new.train.should_not be_nil
+#    ML.new.train.should_not be_nil
+  end
+
+  it "should give correct rms" do
+    set = [1.0,2.0,3.0]
+    ML.new.rms(set).to_s.should include("2.16024689946929")
+#    ML.new.rms(set).should == 2.16024689946929
   end
 end
